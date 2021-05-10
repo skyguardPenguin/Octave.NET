@@ -14,7 +14,7 @@ namespace Octave.NET.Tools
         public string StrFunc { get; set; }
         string FuncDerivative;
 
-        
+        bool packageLoaded;
 
         Thread LoadPackageProcess;
         public Function(string strFunc)
@@ -35,7 +35,10 @@ namespace Octave.NET.Tools
         }
         public bool PackageLoaded()
         {
-            return !LoadPackageProcess.IsAlive;
+            if (packageLoaded == true)
+                return true;
+            packageLoaded = !LoadPackageProcess.IsAlive; 
+            return packageLoaded;
         }
 
         public Function()

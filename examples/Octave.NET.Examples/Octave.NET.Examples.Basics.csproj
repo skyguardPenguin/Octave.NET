@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Octave.NET" Version="*" />
+    <Reference Include="Octave.NET">
+      <HintPath>..\..\src\Octave.NET\bin\Debug\netstandard1.3\Octave.NET.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
