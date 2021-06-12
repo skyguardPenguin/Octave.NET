@@ -6,13 +6,15 @@ namespace Octave.NET.Tools
 {
    public class Function
     {
+        private string _strFunc="";
 
         public static OctaveSettings Settings = new OctaveSettings();
         public static string Path;
         
         public OctaveContext octave;
-        public string StrFunc { get; set; }
-        string FuncDerivative;
+        public string StrFunc { get { return _strFunc; } set { _strFunc = value;} }
+        public string GeneratedFuncDerivative;
+        public string UserFuncDerivative;
 
         bool packageLoaded;
 
@@ -52,23 +54,38 @@ namespace Octave.NET.Tools
         }
         public double Derivative(string value)
         {
-            octave.Execute("equ=inline('" + StrFunc + "','x')");
-            octave.Execute("equ=diff(equ(x))");
-            FuncDerivative = octave.Execute("disp(equ)");
-            return Evaluate(FuncDerivative, value);
+            LoadPackage();
+            if (UserFuncDerivative == "")
+                return Evaluate(GeneratedFuncDerivative, value);
+            else
+                return Evaluate(UserFuncDerivative,value);
         }
 
+        public string Derivative()
+        {
+            LoadPackage();
+            octave.Execute("equ=inline('" + _strFunc + "','x')");
+            octave.Execute("equ=diff(equ(x))");
+            GeneratedFuncDerivative = octave.Execute("disp(equ)");
+            return GeneratedFuncDerivative;
+           
+        }
         private double Evaluate(string func,string value)
         {
+            LoadPackage();
             octave.Execute("equ=inline('" + func + "','x')");
             return double.Parse(octave.Execute("disp(equ(" + value + "))"));
         }
         public double Evaluate(string value)
         {
+            LoadPackage();
             octave.Execute("equ=inline('" + StrFunc + "','x')");
             return double.Parse(octave.Execute("disp(equ(" + value + "))"));
         }
-
+        public void Clear()
+        {
+            octave.Execute("clear");
+        }
 
 
 

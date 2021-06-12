@@ -12,9 +12,7 @@ namespace Octave.NET.Examples.Functions
     {
         static void Main(string[] args)
         {
-            //Replace with your octave.bat path:
-            
-            
+            //Replace with your octave.bat path:            
             Function.Path = @"C:\Users\sinoa\AppData\Local\Programs\GNU Octave\Octave-6.2.0\mingw64\bin\octave.bat";
            
             Function Func = new Function();
